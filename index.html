@@ -3,14 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Java Silver 学習サイト</title>
+<title>Java Silver 学習サイト — 合格への道</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+/* ===== Index-specific styles ===== */
+.exam-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+.exam-card:hover { box-shadow: var(--shadow-colored); border-color: var(--indigo-300); transform: translateY(-2px); }
+.exam-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+.exam-card-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.exam-card-count { font-size: 0.75rem; font-weight: 600; color: var(--gray-400); }
+.exam-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.25rem; }
+.exam-card p  { font-size: 0.8rem; color: var(--gray-500); line-height: 1.5; }
+
+.step-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  transition: all var(--transition);
+}
+.step-card:hover { box-shadow: var(--shadow-md); border-color: var(--indigo-200); }
+.step-num {
+  width: 40px; height: 40px; min-width: 40px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: var(--white);
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(79,70,229,0.3);
+}
+.step-body h3 { font-size: 0.95rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.3rem; }
+.step-body p  { font-size: 0.85rem; color: var(--gray-500); line-height: 1.6; }
+
+.progress-ring { position: relative; }
+.mini-score-card {
+  background: var(--gradient-primary);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  color: var(--white);
+  text-align: center;
+  box-shadow: var(--shadow-colored);
+}
+.mini-score-ring {
+  width: 100px; height: 100px;
+  margin: 0 auto 1rem;
+  position: relative;
+}
+.mini-score-ring svg { transform: rotate(-90deg); }
+.mini-ring-bg { fill: none; stroke: rgba(255,255,255,0.2); stroke-width: 8; }
+.mini-ring-fill { fill: none; stroke: rgba(255,255,255,0.9); stroke-width: 8; stroke-linecap: round; }
+.mini-ring-text {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.mini-pct { font-size: 1.5rem; font-weight: 800; }
+.mini-label { font-size: 0.7rem; opacity: 0.75; }
+
+.today-q {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  height: fit-content;
+}
+.today-q-label {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.75rem; font-weight: 700; color: var(--warning);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+.today-q h3 { font-size: 0.95rem; font-weight: 600; color: var(--gray-700); line-height: 1.6; margin-bottom: 1rem; }
+
+.hero-stat {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+.hero-stat-item { text-align: center; }
+.hero-stat-num { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; }
+.hero-stat-label { font-size: 0.8rem; opacity: 0.7; margin-top: 0.1rem; }
+.hero-stat-divider { width: 1px; background: rgba(255,255,255,0.2); }
+</style>
 </head>
 <body>
 
 <nav class="navbar">
   <div class="nav-inner">
-    <div class="nav-logo"><span>☕</span> Java Silver 学習</div>
+    <div class="nav-logo">
+      <div class="logo-icon">☕</div>
+      <span>Java Silver</span>
+    </div>
     <button class="nav-toggle" aria-label="メニュー">☰</button>
     <ul class="nav-links">
       <li><a href="index.html" class="active">ホーム</a></li>
@@ -24,158 +128,304 @@
   </div>
 </nav>
 
+<!-- Hero -->
 <section class="hero">
-  <div class="hero-badge">Oracle Certified Java Programmer, Silver SE 11</div>
-  <h1>Java Silver 合格への道</h1>
-  <p>問題演習・詳細解説・実務知識で、Java Silverを確実に攻略しましょう</p>
-  <a href="questions.html" class="btn btn-primary btn-lg">学習を開始する →</a>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">⚡ Oracle Certified Java Programmer, Silver SE 11</div>
+    <h1>Java Silverを<span class="highlight">確実に合格</span>しよう</h1>
+    <p>80問のオリジナル演習問題・詳細解説・チートシートで<br>体系的に学べる完全無料の学習サイトです</p>
+    <div class="hero-actions">
+      <a href="questions.html" class="btn btn-primary btn-lg">✏️ 問題演習を始める</a>
+      <a href="cheatsheet.html" class="btn btn-secondary btn-lg">📝 チートシートを見る</a>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">80+</div>
+        <div class="hero-stat-label">オリジナル問題</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">17</div>
+        <div class="hero-stat-label">カテゴリ</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">6週</div>
+        <div class="hero-stat-label">学習ロードマップ</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div class="container">
 
-  <!-- 進捗サマリー -->
-  <div id="progress-area"></div>
+  <!-- 学習進捗ダッシュボード -->
+  <section class="mb-4">
+    <h2 class="section-title">📊 学習ダッシュボード</h2>
+    <div id="progress-area"></div>
+  </section>
+
+  <!-- コンテンツカード -->
+  <section class="mb-4">
+    <h2 class="section-title">🗺️ 学習コンテンツ</h2>
+    <div class="card-grid">
+      <a href="exam.html" class="feature-card" style="text-decoration:none;display:block">
+        <div class="feature-icon">📋</div>
+        <h3>試験範囲</h3>
+        <p style="font-size:0.875rem;color:var(--gray-500);line-height:1.6">Java Silver の全出題範囲をカテゴリ別に整理。コード例・ポイント・実務での使い方をまとめました。</p>
+        <div style="margin-top:1rem;font-size:0.8rem;color:var(--primary);font-weight:600">17カテゴリ →</div>
+      </a>
+      <a href="questions.html" class="feature-card" style="text-decoration:none;display:block">
+        <div class="feature-icon">✏️</div>
+        <h3>問題演習</h3>
+        <p style="font-size:0.875rem;color:var(--gray-500);line-height:1.6">80問のオリジナル問題。カテゴリ・難易度でフィルター。間違えた問題を自動保存して集中復習できます。</p>
+        <div style="margin-top:1rem;font-size:0.8rem;color:var(--primary);font-weight:600">80問に挑戦 →</div>
+      </a>
+      <a href="explanation.html" class="feature-card" style="text-decoration:none;display:block">
+        <div class="feature-icon">📖</div>
+        <h3>詳細解説</h3>
+        <p style="font-size:0.875rem;color:var(--gray-500);line-height:1.6">== と equals、static、継承、ラムダ式など9トピックを深く解説。コード例・実行結果・実務ポイント付き。</p>
+        <div style="margin-top:1rem;font-size:0.8rem;color:var(--primary);font-weight:600">9トピック →</div>
+      </a>
+      <a href="cheatsheet.html" class="feature-card" style="text-decoration:none;display:block">
+        <div class="feature-icon">📝</div>
+        <h3>チートシート</h3>
+        <p style="font-size:0.875rem;color:var(--gray-500);line-height:1.6">試験直前に確認する頻出ポイントを1ページに凝縮。落とし穴12選・データ型・メソッド一覧など。</p>
+        <div style="margin-top:1rem;font-size:0.8rem;color:var(--primary);font-weight:600">確認する →</div>
+      </a>
+      <a href="practical.html" class="feature-card" style="text-decoration:none;display:block">
+        <div class="feature-icon">💼</div>
+        <h3>業務で役立つJava</h3>
+        <p style="font-size:0.875rem;color:var(--gray-500);line-height:1.6">試験で学ぶ知識が実際の開発でどう活きるか。Spring Boot・例外設計・コレクション活用など実務目線で解説。</p>
+        <div style="margin-top:1rem;font-size:0.8rem;color:var(--primary);font-weight:600">実務を学ぶ →</div>
+      </a>
+      <a href="roadmap.html" class="feature-card" style="text-decoration:none;display:block">
+        <div class="feature-icon">🗓️</div>
+        <h3>学習ロードマップ</h3>
+        <p style="font-size:0.875rem;color:var(--gray-500);line-height:1.6">6週間で合格を目指す計画的な学習スケジュール。チェックリストで進捗管理。週ごとの到達目標付き。</p>
+        <div style="margin-top:1rem;font-size:0.8rem;color:var(--primary);font-weight:600">計画を立てる →</div>
+      </a>
+    </div>
+  </section>
 
   <!-- Java Silverとは -->
-  <section style="margin-bottom:2.5rem">
+  <section class="mb-4">
     <h2 class="section-title">☕ Java Silverとは</h2>
-    <div class="card">
-      <p>Java Silver（Oracle Certified Java Programmer, Silver SE 11）は、Javaプログラミングの基礎から中級レベルの知識を認定するOracle社の資格です。</p>
-      <div class="card-grid" style="margin-top:1.25rem">
-        <div>
-          <h3>📋 試験概要</h3>
-          <ul style="padding-left:1.25rem;line-height:2">
-            <li>問題数：77問</li>
-            <li>合格ライン：63%以上</li>
-            <li>試験時間：180分</li>
-            <li>形式：選択式・コード読解</li>
-          </ul>
-        </div>
-        <div>
-          <h3>🎯 対象者</h3>
-          <ul style="padding-left:1.25rem;line-height:2">
-            <li>Javaエンジニア志望者</li>
-            <li>SE・プログラマー</li>
-            <li>IT資格を取りたい方</li>
-            <li>Java基礎を体系的に学びたい方</li>
-          </ul>
-        </div>
-        <div>
-          <h3>💪 取得メリット</h3>
-          <ul style="padding-left:1.25rem;line-height:2">
-            <li>Java基礎の体系化</li>
-            <li>就職・転職に有利</li>
-            <li>Gold受験の前提資格</li>
-            <li>実務Javaスキルの証明</li>
-          </ul>
-        </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+      <div class="card">
+        <h3 style="margin-bottom:1rem;font-size:1rem;font-weight:700">📋 試験概要</h3>
+        <table style="width:100%;font-size:0.875rem;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:0.5rem 0;color:var(--gray-500);width:40%">正式名称</td><td style="padding:0.5rem 0;font-weight:500">Oracle Certified Java Programmer, Silver SE 11</td></tr>
+          <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:0.5rem 0;color:var(--gray-500)">問題数</td><td style="padding:0.5rem 0;font-weight:500">77問</td></tr>
+          <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:0.5rem 0;color:var(--gray-500)">合格ライン</td><td style="padding:0.5rem 0;font-weight:500;color:var(--success)">63%以上（約49問正解）</td></tr>
+          <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:0.5rem 0;color:var(--gray-500)">試験時間</td><td style="padding:0.5rem 0;font-weight:500">180分</td></tr>
+          <tr><td style="padding:0.5rem 0;color:var(--gray-500)">受験料</td><td style="padding:0.5rem 0;font-weight:500">約33,000円（税込）</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:1rem;font-size:1rem;font-weight:700">🎯 取得メリット</h3>
+        <ul style="display:flex;flex-direction:column;gap:0.6rem">
+          <li style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.875rem"><span style="color:var(--success);flex-shrink:0;font-weight:700;margin-top:0.1rem">✓</span>Java基礎知識の体系的な習得・証明</li>
+          <li style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.875rem"><span style="color:var(--success);flex-shrink:0;font-weight:700;margin-top:0.1rem">✓</span>就職・転職でのアピール材料になる</li>
+          <li style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.875rem"><span style="color:var(--success);flex-shrink:0;font-weight:700;margin-top:0.1rem">✓</span>Gold資格（上位資格）受験の前提条件</li>
+          <li style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.875rem"><span style="color:var(--success);flex-shrink:0;font-weight:700;margin-top:0.1rem">✓</span>Spring Boot等の業務フレームワーク理解の基礎</li>
+          <li style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.875rem"><span style="color:var(--success);flex-shrink:0;font-weight:700;margin-top:0.1rem">✓</span>チームでのコードレビュー力が向上する</li>
+        </ul>
       </div>
     </div>
   </section>
 
   <!-- 学習の進め方 -->
-  <section style="margin-bottom:2.5rem">
-    <h2 class="section-title">📚 このサイトでの学習の進め方</h2>
-    <div class="card-grid">
-      <div class="card">
-        <h3>① 試験範囲を確認</h3>
-        <p>まず<a href="exam.html">試験範囲ページ</a>でどの分野が出るか把握しましょう。カテゴリ別にポイントを整理しています。</p>
+  <section class="mb-4">
+    <h2 class="section-title">📚 学習の進め方</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>試験範囲を把握</h3>
+          <p>試験範囲ページでどの分野が出るかを確認。カテゴリ別のコード例で全体像を掴む。</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>② 詳細解説を読む</h3>
-        <p><a href="explanation.html">詳細解説ページ</a>で各トピックを深く理解します。コード例と実行結果付きで解説しています。</p>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>詳細解説を読む</h3>
+          <p>各トピックを深く理解。コード例と実行結果付きで「なぜそうなるか」を理解する。</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>③ 問題演習</h3>
-        <p><a href="questions.html">問題演習ページ</a>でオリジナル問題に挑戦。間違えた問題は自動保存され、復習できます。</p>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>問題演習で確認</h3>
+          <p>80問のオリジナル問題に挑戦。解説を読んで理解を深め、間違えた問題を繰り返す。</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>④ 業務との関連を学ぶ</h3>
-        <p><a href="practical.html">業務活用ページ</a>で試験知識が実務でどう役立つか確認し、理解を深めましょう。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 試験範囲一覧 -->
-  <section style="margin-bottom:2.5rem">
-    <h2 class="section-title">📋 試験範囲カテゴリ</h2>
-    <div class="card-grid">
-      <div class="card" style="border-left:4px solid var(--primary)">
-        <h3>🔵 Javaの基礎</h3>
-        <p>データ型・変数・演算子・制御構文・配列</p>
-        <a href="exam.html#basics" class="btn btn-outline btn-sm" style="margin-top:0.75rem">詳細を見る</a>
-      </div>
-      <div class="card" style="border-left:4px solid #7c3aed">
-        <h3>🟣 文字列操作</h3>
-        <p>String・StringBuilder・主要メソッド</p>
-        <a href="exam.html#string" class="btn btn-outline btn-sm" style="margin-top:0.75rem">詳細を見る</a>
-      </div>
-      <div class="card" style="border-left:4px solid #059669">
-        <h3>🟢 オブジェクト指向</h3>
-        <p>クラス・継承・ポリモーフィズム・インターフェース</p>
-        <a href="exam.html#oop" class="btn btn-outline btn-sm" style="margin-top:0.75rem">詳細を見る</a>
-      </div>
-      <div class="card" style="border-left:4px solid #dc2626">
-        <h3>🔴 例外処理</h3>
-        <p>try-catch-finally・チェック例外・非チェック例外</p>
-        <a href="exam.html#exception" class="btn btn-outline btn-sm" style="margin-top:0.75rem">詳細を見る</a>
-      </div>
-      <div class="card" style="border-left:4px solid #d97706">
-        <h3>🟡 コレクション</h3>
-        <p>ArrayList・HashMap・HashSet・Collectionsクラス</p>
-        <a href="exam.html#collection" class="btn btn-outline btn-sm" style="margin-top:0.75rem">詳細を見る</a>
-      </div>
-      <div class="card" style="border-left:4px solid #0891b2">
-        <h3>🔵 ラムダ式</h3>
-        <p>関数型インターフェース・Stream API・メソッド参照</p>
-        <a href="exam.html#lambda" class="btn btn-outline btn-sm" style="margin-top:0.75rem">詳細を見る</a>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>直前にチートシート</h3>
+          <p>試験前日はチートシートで頻出ポイントを最終確認。落とし穴12選を必ず見直す。</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 今日のおすすめ問題 -->
-  <section style="margin-bottom:2.5rem">
-    <h2 class="section-title">⭐ 今日のおすすめ問題</h2>
-    <div class="card" id="today-question">
-      <p style="color:var(--gray-600)">読み込み中...</p>
+  <!-- 試験範囲カテゴリ -->
+  <section class="mb-4">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.5rem">
+      <h2 class="section-title" style="margin-bottom:0">📋 試験カテゴリ別 問題数</h2>
+      <a href="exam.html" class="btn btn-ghost btn-sm">全カテゴリを見る →</a>
     </div>
-    <div style="text-align:center;margin-top:1rem">
-      <a href="questions.html" class="btn btn-primary">全問題に挑戦する →</a>
-    </div>
+    <div id="category-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem"></div>
+  </section>
+
+  <!-- 今日の問題 -->
+  <section class="mb-4">
+    <h2 class="section-title">⭐ 今日の一問</h2>
+    <div id="today-question" class="card"></div>
   </section>
 
 </div>
 
 <footer>
-  <div class="footer-links">
-    <a href="index.html">ホーム</a>
-    <a href="exam.html">試験範囲</a>
-    <a href="questions.html">問題演習</a>
-    <a href="explanation.html">詳細解説</a>
-    <a href="cheatsheet.html">チートシート</a>
-    <a href="practical.html">業務活用</a>
-    <a href="roadmap.html">ロードマップ</a>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="index.html">ホーム</a>
+      <a href="exam.html">試験範囲</a>
+      <a href="questions.html">問題演習</a>
+      <a href="explanation.html">詳細解説</a>
+      <a href="cheatsheet.html">チートシート</a>
+      <a href="practical.html">業務活用</a>
+      <a href="roadmap.html">ロードマップ</a>
+    </div>
+    <p class="footer-copy">Java Silver 学習サイト &copy; 2025 — Oracle試験のオリジナル学習教材</p>
   </div>
-  <p>Java Silver 学習サイト &copy; 2025 | Java Silver合格を目指すオリジナル学習教材</p>
 </footer>
 
 <script src="js/questions.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/app.js"></script>
 <script>
-  // 今日のおすすめ問題（その日の日付でランダムに1問）
-  const today = new Date();
-  const seed = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
-  const idx = seed % QUESTIONS.length;
-  const q = QUESTIONS[idx];
-  document.getElementById("today-question").innerHTML = `
-    <div class="question-meta" style="margin-bottom:0.75rem">
-      <span class="badge badge-category">${q.category}</span>
-      <span class="badge badge-${{easy:'easy',medium:'medium',hard:'hard'}[q.difficulty]}">${{easy:'易',medium:'中',hard:'難'}[q.difficulty]}</span>
+// カテゴリグリッド
+const categoryColors = {
+  "String":        {bg:"#eef2ff",icon:"🔤",color:"#4f46e5"},
+  "配列":           {bg:"#f0fdf4",icon:"📐",color:"#16a34a"},
+  "static":        {bg:"#fffbeb",icon:"⚡",color:"#d97706"},
+  "継承":           {bg:"#fdf4ff",icon:"🧬",color:"#9333ea"},
+  "オーバーライド":   {bg:"#fff1f2",icon:"🔄",color:"#e11d48"},
+  "ポリモーフィズム": {bg:"#f0fdfa",icon:"🎭",color:"#0d9488"},
+  "インターフェース": {bg:"#f8fafc",icon:"🔌",color:"#475569"},
+  "抽象クラス":      {bg:"#fef3c7",icon:"🏗",color:"#b45309"},
+  "例外処理":        {bg:"#fff7ed",icon:"💥",color:"#ea580c"},
+  "コレクション":    {bg:"#ecfeff",icon:"📚",color:"#0891b2"},
+  "ラムダ式":        {bg:"#f5f3ff",icon:"λ",color:"#7c3aed"},
+  "データ型と変数":   {bg:"#f0f9ff",icon:"📦",color:"#0369a1"},
+  "演算子":          {bg:"#fdf2f8",icon:"➕",color:"#a21caf"},
+  "条件分岐":        {bg:"#f0fdf4",icon:"🔀",color:"#15803d"},
+  "繰り返し処理":    {bg:"#fff7ed",icon:"🔁",color:"#c2410c"},
+  "クラスとオブジェクト":{bg:"#fefce8",icon:"🏛",color:"#a16207"},
+  "コンストラクタ":   {bg:"#ecfdf5",icon:"🔧",color:"#059669"},
+  "Javaの基本":     {bg:"#eef2ff",icon:"☕",color:"#4338ca"},
+  "モジュール基礎":   {bg:"#f8fafc",icon:"📦",color:"#334155"},
+};
+
+const catCount = {};
+QUESTIONS.forEach(q => { catCount[q.category] = (catCount[q.category]||0)+1; });
+
+const grid = document.getElementById("category-grid");
+Object.entries(catCount).sort((a,b)=>b[1]-a[1]).forEach(([cat,count]) => {
+  const info = categoryColors[cat] || {bg:"#f8fafc",icon:"☕",color:"#475569"};
+  const el = document.createElement("a");
+  el.href = "questions.html";
+  el.style.cssText = `text-decoration:none;background:${info.bg};border:1px solid ${info.color}22;border-radius:12px;padding:1rem;display:flex;align-items:center;gap:0.75rem;transition:all 0.2s;`;
+  el.innerHTML = `
+    <span style="font-size:1.3rem;width:32px;text-align:center">${info.icon}</span>
+    <div>
+      <div style="font-size:0.82rem;font-weight:700;color:${info.color}">${cat}</div>
+      <div style="font-size:0.75rem;color:#94a3b8;margin-top:0.1rem">${count}問</div>
     </div>
-    <p class="question-text" style="font-size:1rem">${q.question}</p>
-    <a href="questions.html" class="btn btn-primary btn-sm" style="margin-top:0.75rem">この問題を解く →</a>
   `;
+  el.addEventListener("mouseover", () => { el.style.boxShadow="0 4px 12px "+info.color+"33"; el.style.transform="translateY(-2px)"; });
+  el.addEventListener("mouseout",  () => { el.style.boxShadow="none"; el.style.transform=""; });
+  grid.appendChild(el);
+});
+
+// 今日の一問
+const today = new Date();
+const seed  = today.getFullYear()*10000+(today.getMonth()+1)*100+today.getDate();
+const q = QUESTIONS[seed % QUESTIONS.length];
+const diffMap = {easy:"易",medium:"中",hard:"難"};
+const diffCls = {easy:"badge-easy",medium:"badge-medium",hard:"badge-hard"};
+document.getElementById("today-question").innerHTML = `
+  <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem">
+    <span style="font-size:0.72rem;font-weight:700;color:var(--warning);text-transform:uppercase;letter-spacing:0.05em">⭐ TODAY'S QUESTION</span>
+  </div>
+  <div style="display:flex;gap:0.5rem;margin-bottom:0.875rem">
+    <span class="badge badge-category">${q.category}</span>
+    <span class="badge ${diffCls[q.difficulty]}">${diffMap[q.difficulty]}</span>
+  </div>
+  <p style="font-size:0.95rem;font-weight:600;color:var(--gray-800);line-height:1.65;margin-bottom:1.25rem">${q.question}</p>
+  <a href="questions.html" class="btn btn-primary btn-sm">この問題を解く →</a>
+`;
+
+// Progress Dashboard
+const ProgressApp = { renderSummary() {
+  const area = document.getElementById("progress-area");
+  if (!area) return;
+  const p = Storage.getProgress();
+  const s = Storage.getStats();
+  const wrongCount = Storage.getWrongIds().length;
+  const circumference = 2 * Math.PI * 40;
+  const offset = circumference - (p.rate / 100) * circumference;
+
+  area.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr auto;gap:1.25rem;align-items:start">
+      <div>
+        <div class="stats-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="stat-card">
+            <span class="stat-num">${p.rate}%</span>
+            <span class="stat-label">習得率</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">${p.correct}/${p.total}</span>
+            <span class="stat-label">正解問題数</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">${s.accuracy}%</span>
+            <span class="stat-label">正解率</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num" style="background:linear-gradient(135deg,#ef4444,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${wrongCount}</span>
+            <span class="stat-label">要復習</span>
+          </div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" style="width:${p.rate}%"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--gray-400);margin-top:-1rem">
+          <span>0%</span><span>習得率: ${p.rate}%</span><span>100%</span>
+        </div>
+      </div>
+      <div class="mini-score-card" style="min-width:130px">
+        <div class="mini-score-ring">
+          <svg viewBox="0 0 100 100" width="100" height="100">
+            <circle class="mini-ring-bg" cx="50" cy="50" r="40"/>
+            <circle class="mini-ring-fill" cx="50" cy="50" r="40"
+              stroke-dasharray="${circumference}"
+              stroke-dashoffset="${offset}"/>
+          </svg>
+          <div class="mini-ring-text">
+            <div class="mini-pct">${p.rate}%</div>
+            <div class="mini-label">習得率</div>
+          </div>
+        </div>
+        <div style="font-size:0.78rem;opacity:0.85">問題数 ${p.tried}/${p.total}</div>
+      </div>
+    </div>
+  `;
+}};
+ProgressApp.renderSummary();
 </script>
 </body>
 </html>
