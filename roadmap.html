@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学習ロードマップ | Java Silver 学習サイト</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo"><a href="index.html" style="color:white;text-decoration:none"><span>☕</span> Java Silver 学習</a></div>
+    <button class="nav-toggle" aria-label="メニュー">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">ホーム</a></li>
+      <li><a href="exam.html">試験範囲</a></li>
+      <li><a href="questions.html">問題演習</a></li>
+      <li><a href="explanation.html">詳細解説</a></li>
+      <li><a href="practical.html">業務活用</a></li>
+      <li><a href="roadmap.html">ロードマップ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" style="padding:2.5rem 1rem">
+  <h1 style="font-size:1.8rem">🗺️ Java Silver 学習ロードマップ</h1>
+  <p>6週間で合格を目指す計画的な学習スケジュール</p>
+</section>
+
+<div class="container" id="roadmap-area">
+
+  <div class="box box-info" style="margin-bottom:2rem">
+    <strong>📌 使い方</strong>
+    各項目のチェックボックスにチェックを入れると、ブラウザに保存されます。
+    1日1〜2時間を目安に進めましょう。週末に問題演習で定着を確認するのがおすすめです。
+  </div>
+
+  <!-- 進捗バー -->
+  <div style="margin-bottom:2rem">
+    <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem">
+      <span style="font-weight:600">全体の学習進捗</span>
+      <span id="check-count">0 / 42 完了</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="roadmap-progress" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Week 1 -->
+  <div class="roadmap-week">
+    <div class="week-number">
+      <div class="week-badge">1</div>
+      <div class="week-line"></div>
+    </div>
+    <div class="week-content">
+      <h3>Week 1：Java基礎・データ型・演算子</h3>
+      <div class="card" style="margin-top:0.5rem">
+        <div class="box box-success" style="margin-bottom:1rem">
+          <strong>到達目標</strong>Javaの実行環境・データ型・演算子・型変換を理解し、基本的なコードが読める
+        </div>
+        <h4 style="margin-bottom:0.75rem">📋 やること</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+          <li><label><input type="checkbox" class="task-check" data-key="w1t1"> &nbsp;JDKのインストール・HelloWorldを書く</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w1t2"> &nbsp;プリミティブ型8種類（byte/short/int/long/float/double/char/boolean）を覚える</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w1t3"> &nbsp;型変換（拡大変換・縮小変換・キャスト）を理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w1t4"> &nbsp;算術・比較・論理・インクリメント演算子を確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w1t5"> &nbsp;前置/後置インクリメントの違いをコードで確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w1t6"> &nbsp;このサイトの問題演習「データ型と変数」「演算子」カテゴリに挑戦する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w1t7"> &nbsp;解説ページの関連項目を読む</label></li>
+        </ul>
+        <div class="box box-warning" style="margin-top:1rem">
+          <strong>確認問題</strong>
+          float f = 3.14; はコンパイルできる？（→できない。3.14はdouble型のため3.14Fが必要）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 2 -->
+  <div class="roadmap-week">
+    <div class="week-number">
+      <div class="week-badge">2</div>
+      <div class="week-line"></div>
+    </div>
+    <div class="week-content">
+      <h3>Week 2：制御構文・配列・String</h3>
+      <div class="card" style="margin-top:0.5rem">
+        <div class="box box-success" style="margin-bottom:1rem">
+          <strong>到達目標</strong>if/switch/for/while/配列の操作とStringメソッドを使いこなせる
+        </div>
+        <h4 style="margin-bottom:0.75rem">📋 やること</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+          <li><label><input type="checkbox" class="task-check" data-key="w2t1"> &nbsp;if-else・三項演算子を理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w2t2"> &nbsp;switchのfall-through（breakなしの動作）をコードで確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w2t3"> &nbsp;for・while・do-whileの違いを理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w2t4"> &nbsp;ラベル付きbreak/continueを練習する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w2t5"> &nbsp;配列の宣言・初期化・lengthプロパティを確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w2t6"> &nbsp;Arrays.sort()・Arrays.toString()を使ってみる</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w2t7"> &nbsp;Stringの主要メソッド10個をノートにまとめる</label></li>
+        </ul>
+        <div class="box box-warning" style="margin-top:1rem">
+          <strong>確認問題</strong>
+          "abcabc".indexOf("b") は何を返す？（→1。最初に見つかったインデックス）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 3 -->
+  <div class="roadmap-week">
+    <div class="week-number">
+      <div class="week-badge">3</div>
+      <div class="week-line"></div>
+    </div>
+    <div class="week-content">
+      <h3>Week 3：クラス・オブジェクト・static・コンストラクタ</h3>
+      <div class="card" style="margin-top:0.5rem">
+        <div class="box box-success" style="margin-bottom:1rem">
+          <strong>到達目標</strong>クラス・インスタンス・static・コンストラクタの概念を理解し、自分でクラスを設計できる
+        </div>
+        <h4 style="margin-bottom:0.75rem">📋 やること</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+          <li><label><input type="checkbox" class="task-check" data-key="w3t1"> &nbsp;クラス・インスタンスの違いを理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w3t2"> &nbsp;インスタンス変数とstaticフィールドの違いをコードで確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w3t3"> &nbsp;staticメソッドからインスタンス変数にアクセスできないことを確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w3t4"> &nbsp;コンストラクタのオーバーロードをコードで書いて確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w3t5"> &nbsp;this()・super()の使い方を理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w3t6"> &nbsp;アクセス修飾子（public/protected/package-private/private）を整理する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w3t7"> &nbsp;問題演習の「static」「コンストラクタ」カテゴリを解く</label></li>
+        </ul>
+        <div class="box box-warning" style="margin-top:1rem">
+          <strong>確認問題</strong>
+          staticメソッドからインスタンス変数を参照すると何が起きる？（→コンパイルエラー）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 4 -->
+  <div class="roadmap-week">
+    <div class="week-number">
+      <div class="week-badge">4</div>
+      <div class="week-line"></div>
+    </div>
+    <div class="week-content">
+      <h3>Week 4：継承・オーバーライド・ポリモーフィズム・Interface</h3>
+      <div class="card" style="margin-top:0.5rem">
+        <div class="box box-success" style="margin-bottom:1rem">
+          <strong>到達目標</strong>オブジェクト指向の核心を理解し、ポリモーフィズムを使ったコードが読み解ける
+        </div>
+        <h4 style="margin-bottom:0.75rem">📋 やること</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+          <li><label><input type="checkbox" class="task-check" data-key="w4t1"> &nbsp;継承（extends）の基本を理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w4t2"> &nbsp;オーバーライドのルール（シグネチャ一致・修飾子・戻り値）を確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w4t3"> &nbsp;「メソッドは実行時型、フィールドは参照型」の違いをコードで確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w4t4"> &nbsp;@Overrideアノテーションの重要性を理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w4t5"> &nbsp;抽象クラスとインターフェースの違いを表で整理する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w4t6"> &nbsp;defaultメソッドの動作を理解する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w4t7"> &nbsp;問題演習の「継承」「オーバーライド」「ポリモーフィズム」「インターフェース」を解く</label></li>
+        </ul>
+        <div class="box box-warning" style="margin-top:1rem">
+          <strong>確認問題</strong>
+          Parent p = new Child(); で p.name を参照すると、Parent.name と Child.name どちらが返る？（→Parent.name。フィールドは参照型で決まる）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 5 -->
+  <div class="roadmap-week">
+    <div class="week-number">
+      <div class="week-badge">5</div>
+      <div class="week-line"></div>
+    </div>
+    <div class="week-content">
+      <h3>Week 5：例外処理・コレクション・ラムダ式</h3>
+      <div class="card" style="margin-top:0.5rem">
+        <div class="box box-success" style="margin-bottom:1rem">
+          <strong>到達目標</strong>例外の種類と処理方法、主要コレクションの使い方、ラムダ式の基本を習得する
+        </div>
+        <h4 style="margin-bottom:0.75rem">📋 やること</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+          <li><label><input type="checkbox" class="task-check" data-key="w5t1"> &nbsp;例外の階層（チェック例外・非チェック例外）を整理する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w5t2"> &nbsp;try-catch-finallyの実行順序を確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w5t3"> &nbsp;finallyにreturnがある場合の動作を確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w5t4"> &nbsp;ArrayList・HashMap・HashSetの使い方を整理する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w5t5"> &nbsp;Collections.sort()・max()・min()を使う</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w5t6"> &nbsp;ラムダ式の基本構文を覚える（引数 -> 処理）</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w5t7"> &nbsp;Stream APIのfilter・map・collectを使ってみる</label></li>
+        </ul>
+        <div class="box box-warning" style="margin-top:1rem">
+          <strong>確認問題</strong>
+          tryでreturn 1、finallyでreturn 2 の場合、メソッドは何を返す？（→2。finallyのreturnが優先）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 6 -->
+  <div class="roadmap-week">
+    <div class="week-number">
+      <div class="week-badge">6</div>
+      <div class="week-line" style="display:none"></div>
+    </div>
+    <div class="week-content">
+      <h3>Week 6：総仕上げ・模擬問題演習</h3>
+      <div class="card" style="margin-top:0.5rem">
+        <div class="box box-success" style="margin-bottom:1rem">
+          <strong>到達目標</strong>全分野の問題を繰り返し解き、正解率80%以上を維持できるようにする
+        </div>
+        <h4 style="margin-bottom:0.75rem">📋 やること</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+          <li><label><input type="checkbox" class="task-check" data-key="w6t1"> &nbsp;全問題をランダム順で解く（目標：正解率75%以上）</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w6t2"> &nbsp;間違えた問題を「要復習」で集中演習する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w6t3"> &nbsp;苦手カテゴリを特定し、解説ページを再読する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w6t4"> &nbsp;staticのオーバーライドとオーバーロードの違いを再確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w6t5"> &nbsp;例外処理の落とし穴（finallyのreturn等）を再確認する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w6t6"> &nbsp;市販の模擬問題集で時間を測って演習する</label></li>
+          <li><label><input type="checkbox" class="task-check" data-key="w6t7"> &nbsp;正解率80%以上が安定したら試験申込する</label></li>
+        </ul>
+        <div class="box box-success" style="margin-top:1rem">
+          <strong>✅ 合格の目安</strong>
+          模擬問題で正解率80%以上が安定してきたら、試験申込のタイミングです。
+          本番試験は63%以上で合格（77問中49問以上正解）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 学習リソース -->
+  <section style="margin-top:2rem">
+    <h2 class="section-title">📚 おすすめ学習リソース</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>📖 参考書</h3>
+        <ul style="padding-left:1.25rem;line-height:2;font-size:0.95rem">
+          <li>徹底攻略 Java SE 11 Silver問題集（インプレス）</li>
+          <li>オラクル認定資格教科書 Javaプログラマ Silver SE 11</li>
+          <li>スッキリわかるJava入門（ジェイク・ウォートン）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💻 実践練習</h3>
+        <ul style="padding-left:1.25rem;line-height:2;font-size:0.95rem">
+          <li>paiza.io（ブラウザでJavaを実行）</li>
+          <li>このサイトの問題演習（間違えた問題を繰り返す）</li>
+          <li>Eclipse / IntelliJ IDEAで実際にコードを書く</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🎯 試験申込</h3>
+        <ul style="padding-left:1.25rem;line-height:2;font-size:0.95rem">
+          <li>Oracle University / テストセンターで受験</li>
+          <li>バウチャーはOracle公式サイトで購入</li>
+          <li>費用：約33,000円（税込）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="text-center" style="margin-top:2rem">
+    <a href="questions.html" class="btn btn-primary btn-lg">問題演習を開始する →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">ホーム</a>
+    <a href="exam.html">試験範囲</a>
+    <a href="questions.html">問題演習</a>
+    <a href="explanation.html">詳細解説</a>
+    <a href="practical.html">業務活用</a>
+  </div>
+  <p>Java Silver 学習サイト &copy; 2025</p>
+</footer>
+
+<script src="js/questions.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // チェックボックス進捗
+  function updateRoadmapProgress() {
+    const all = document.querySelectorAll(".task-check");
+    const checked = document.querySelectorAll(".task-check:checked");
+    const total = all.length;
+    const done = checked.length;
+    document.getElementById("check-count").textContent = done + " / " + total + " 完了";
+    document.getElementById("roadmap-progress").style.width = (done / total * 100) + "%";
+  }
+
+  document.querySelectorAll(".task-check").forEach(cb => {
+    const key = "roadmap_" + cb.dataset.key;
+    cb.checked = localStorage.getItem(key) === "1";
+    cb.addEventListener("change", () => {
+      localStorage.setItem(key, cb.checked ? "1" : "0");
+      updateRoadmapProgress();
+    });
+  });
+  updateRoadmapProgress();
+</script>
+</body>
+</html>

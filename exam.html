@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>試験範囲 | Java Silver 学習サイト</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo"><a href="index.html" style="color:white;text-decoration:none"><span>☕</span> Java Silver 学習</a></div>
+    <button class="nav-toggle" aria-label="メニュー">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">ホーム</a></li>
+      <li><a href="exam.html">試験範囲</a></li>
+      <li><a href="questions.html">問題演習</a></li>
+      <li><a href="explanation.html">詳細解説</a></li>
+      <li><a href="practical.html">業務活用</a></li>
+      <li><a href="roadmap.html">ロードマップ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" style="padding:2.5rem 1rem">
+  <h1 style="font-size:1.8rem">📋 Java Silver 試験範囲</h1>
+  <p>カテゴリ別に出題ポイント・コード例・実務活用を整理しました</p>
+</section>
+
+<div class="container">
+
+  <div class="toc">
+    <h3>📑 目次</h3>
+    <ol>
+      <li><a href="#basics">Javaの基本・データ型・演算子</a></li>
+      <li><a href="#control">条件分岐・繰り返し処理</a></li>
+      <li><a href="#array">配列</a></li>
+      <li><a href="#string">String / StringBuilder</a></li>
+      <li><a href="#oop">クラス・コンストラクタ・static</a></li>
+      <li><a href="#inheritance">継承・オーバーライド・ポリモーフィズム</a></li>
+      <li><a href="#interface">インターフェース・抽象クラス</a></li>
+      <li><a href="#exception">例外処理</a></li>
+      <li><a href="#collection">コレクション</a></li>
+      <li><a href="#lambda">ラムダ式・Stream API</a></li>
+      <li><a href="#module">モジュール基礎</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. Javaの基本 -->
+  <section id="basics" class="detail-section">
+    <h2 class="section-title">1️⃣ Javaの基本・データ型・演算子</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>プリミティブ型のサイズと範囲（byte: -128〜127, int: 約±21億）</li>
+        <li>暗黙的型変換（拡大変換）とキャスト（縮小変換）</li>
+        <li>前置/後置インクリメント（++a vs a++）の違い</li>
+        <li>整数除算の結果（int/int=int）</li>
+        <li>short・byteへの代入はキャストが必要（計算結果はint以上）</li>
+      </ul>
+      <h3 style="margin-top:1rem">⚠️ 初学者が間違えやすい点</h3>
+      <div class="box box-warning">
+        <strong>float代入にはFサフィックスが必要</strong>
+        float f = 3.14; // コンパイルエラー！3.14はdouble型<br>
+        float f = 3.14F; // これが正解
+      </div>
+      <div class="code-label">Java: データ型の基本</div>
+      <div class="code-block"><pre><span class="kw">byte</span> b = <span class="num">100</span>;           <span class="cmt">// -128〜127</span>
+<span class="kw">int</span> i = <span class="num">2_000_000</span>;    <span class="cmt">// アンダースコア区切りOK（Java7以降）</span>
+<span class="kw">long</span> l = <span class="num">9999999999L</span>; <span class="cmt">// Lサフィックス必須</span>
+<span class="kw">double</span> d = <span class="num">3.14</span>;      <span class="cmt">// デフォルトはdouble</span>
+<span class="kw">float</span> f = <span class="num">3.14F</span>;      <span class="cmt">// Fサフィックス必須</span>
+<span class="kw">char</span> c = <span class="str">'A'</span>;          <span class="cmt">// シングルクォート</span>
+<span class="kw">boolean</span> ok = <span class="kw">true</span>;    <span class="cmt">// true / false のみ</span>
+
+<span class="cmt">// 拡大変換（自動）</span>
+<span class="kw">int</span> x = b; <span class="cmt">// byteはintに自動変換OK</span>
+
+<span class="cmt">// 縮小変換（キャスト必須）</span>
+<span class="kw">byte</span> b2 = (<span class="kw">byte</span>) i; <span class="cmt">// 明示的キャストが必要</span></pre></div>
+    </div>
+  </section>
+
+  <!-- 2. 制御構文 -->
+  <section id="control" class="detail-section">
+    <h2 class="section-title">2️⃣ 条件分岐・繰り返し処理</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>switchのfall-through（breakなしで次のcaseに流れる）</li>
+        <li>ラベル付きbreak/continue（外側ループを操作）</li>
+        <li>for-eachループの使い方と制限（インデックス操作不可）</li>
+        <li>while vs do-while（do-whileは必ず1回実行）</li>
+      </ul>
+      <div class="code-label">Java: switch文のfall-through</div>
+      <div class="code-block"><pre><span class="kw">int</span> x = <span class="num">2</span>;
+<span class="kw">switch</span> (x) {
+    <span class="kw">case</span> <span class="num">1</span>:
+        System.out.println(<span class="str">"one"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="num">2</span>:           <span class="cmt">// breakなし→fall-through</span>
+    <span class="kw">case</span> <span class="num">3</span>:
+        System.out.println(<span class="str">"two or three"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        System.out.println(<span class="str">"other"</span>);
+}
+<span class="cmt">// 出力: two or three</span></pre></div>
+      <div class="box box-warning">
+        <strong>⚠️ switchで使える型</strong>
+        byte, short, char, int, String, enum（Java7以降でString対応）。long, floatは使えません。
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 配列 -->
+  <section id="array" class="detail-section">
+    <h2 class="section-title">3️⃣ 配列</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>配列の初期値（int→0, boolean→false, 参照型→null）</li>
+        <li>length はフィールド（括弧なし）</li>
+        <li>配列の代入は参照コピー（同じオブジェクトを指す）</li>
+        <li>Arrays.sort()・Arrays.toString()・Arrays.copyOf()の使い方</li>
+        <li>ArrayIndexOutOfBoundsException の発生条件</li>
+      </ul>
+      <div class="code-label">Java: 配列の基本操作</div>
+      <div class="code-block"><pre><span class="cmt">// 宣言と初期化</span>
+<span class="kw">int</span>[] arr1 = <span class="kw">new</span> <span class="kw">int</span>[<span class="num">5</span>];          <span class="cmt">// 全要素0で初期化</span>
+<span class="kw">int</span>[] arr2 = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>};  <span class="cmt">// 初期値あり</span>
+
+<span class="cmt">// lengthはフィールド（括弧なし！）</span>
+System.out.println(arr2.length);  <span class="cmt">// 5</span>
+
+<span class="cmt">// Arrays.sortとtoString</span>
+<span class="kw">int</span>[] nums = {<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">5</span>};
+java.util.Arrays.sort(nums);
+System.out.println(java.util.Arrays.toString(nums));
+<span class="cmt">// [1, 1, 3, 4, 5]</span>
+
+<span class="cmt">// 参照コピーに注意！</span>
+<span class="kw">int</span>[] a = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
+<span class="kw">int</span>[] b = a;  <span class="cmt">// 同じ配列を指す</span>
+b[<span class="num">0</span>] = <span class="num">99</span>;
+System.out.println(a[<span class="num">0</span>]);  <span class="cmt">// 99（aも変わる！）</span></pre></div>
+    </div>
+  </section>
+
+  <!-- 4. String -->
+  <section id="string" class="detail-section">
+    <h2 class="section-title">4️⃣ String / StringBuilder</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>==はアドレス比較、equalsは値比較</li>
+        <li>Stringはイミュータブル（変更不可）</li>
+        <li>substring(begin) / substring(begin, end)の動作</li>
+        <li>StringBuilderのappend・insert・delete・reverse</li>
+        <li>String.valueOf()・toString()の変換</li>
+      </ul>
+      <div class="code-label">Java: String主要メソッド</div>
+      <div class="code-block"><pre>String s = <span class="str">"Hello World"</span>;
+
+s.length()          <span class="cmt">// 11</span>
+s.charAt(<span class="num">0</span>)         <span class="cmt">// 'H'</span>
+s.indexOf(<span class="str">"o"</span>)      <span class="cmt">// 4（最初に見つかった位置）</span>
+s.lastIndexOf(<span class="str">"o"</span>) <span class="cmt">// 7</span>
+s.substring(<span class="num">6</span>)      <span class="cmt">// "World"</span>
+s.substring(<span class="num">0</span>, <span class="num">5</span>)  <span class="cmt">// "Hello"</span>
+s.toUpperCase()     <span class="cmt">// "HELLO WORLD"</span>
+s.toLowerCase()     <span class="cmt">// "hello world"</span>
+s.trim()            <span class="cmt">// 前後の空白削除</span>
+s.replace(<span class="str">"l"</span>,<span class="str">"L"</span>) <span class="cmt">// "HeLLo WorLd"</span>
+s.contains(<span class="str">"World"</span>)<span class="cmt">// true</span>
+s.startsWith(<span class="str">"He"</span>) <span class="cmt">// true</span>
+s.endsWith(<span class="str">"ld"</span>)  <span class="cmt">// true</span>
+s.isEmpty()         <span class="cmt">// false</span>
+s.split(<span class="str">" "</span>)        <span class="cmt">// ["Hello", "World"]</span></pre></div>
+    </div>
+  </section>
+
+  <!-- 5. OOP -->
+  <section id="oop" class="detail-section">
+    <h2 class="section-title">5️⃣ クラス・コンストラクタ・static</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>staticフィールドはクラス全体で共有（インスタンスは各自の値を持つ）</li>
+        <li>staticメソッドからインスタンスメンバは参照不可</li>
+        <li>コンストラクタはvoid不要・クラス名と同名</li>
+        <li>this()・super()はコンストラクタ第1行目のみ</li>
+        <li>デフォルトコンストラクタは引数ありを定義すると追加されない</li>
+      </ul>
+      <div class="code-label">Java: クラスとstatic</div>
+      <div class="code-block"><pre><span class="kw">class</span> <span class="cls">BankAccount</span> {
+    <span class="kw">static int</span> totalAccounts = <span class="num">0</span>;  <span class="cmt">// クラス変数（共有）</span>
+    String owner;                   <span class="cmt">// インスタンス変数（各自）</span>
+    <span class="kw">double</span> balance;
+
+    <span class="cls">BankAccount</span>(String owner, <span class="kw">double</span> balance) {
+        <span class="kw">this</span>.owner = owner;
+        <span class="kw">this</span>.balance = balance;
+        totalAccounts++;
+    }
+
+    <span class="kw">static int</span> <span class="met">getTotalAccounts</span>() {
+        <span class="kw">return</span> totalAccounts; <span class="cmt">// staticメンバのみOK</span>
+    }
+}
+
+<span class="cls">BankAccount</span> a1 = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Alice"</span>, <span class="num">1000</span>);
+<span class="cls">BankAccount</span> a2 = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Bob"</span>, <span class="num">2000</span>);
+System.out.println(BankAccount.getTotalAccounts()); <span class="cmt">// 2</span></pre></div>
+    </div>
+  </section>
+
+  <!-- 6. 継承 -->
+  <section id="inheritance" class="detail-section">
+    <h2 class="section-title">6️⃣ 継承・オーバーライド・ポリモーフィズム</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>インスタンスメソッドはオーバーライドされる（実行時型）</li>
+        <li>フィールドとstaticメソッドは参照型で解決（コンパイル時型）</li>
+        <li>オーバーライドのルール（アクセス修飾子は広げるのみ可）</li>
+        <li>super()はコンストラクタ呼び出し、コンストラクタ実行順は親→子</li>
+        <li>finalクラス・finalメソッドは継承/オーバーライド不可</li>
+      </ul>
+      <div class="code-label">Java: ポリモーフィズムの例</div>
+      <div class="code-block"><pre><span class="kw">class</span> <span class="cls">Animal</span> {
+    String name = <span class="str">"Animal"</span>;
+    <span class="kw">void</span> <span class="met">speak</span>() { System.out.println(<span class="str">"..."</span>); }
+}
+<span class="kw">class</span> <span class="cls">Dog</span> <span class="kw">extends</span> <span class="cls">Animal</span> {
+    String name = <span class="str">"Dog"</span>;         <span class="cmt">// フィールドはhiding</span>
+    <span class="ann">@Override</span>
+    <span class="kw">void</span> <span class="met">speak</span>() { System.out.println(<span class="str">"Woof"</span>); } <span class="cmt">// メソッドはoverride</span>
+}
+
+Animal a = <span class="kw">new</span> <span class="cls">Dog</span>();
+a.speak();           <span class="cmt">// "Woof"（実行時型Dogのメソッド）</span>
+System.out.println(a.name);  <span class="cmt">// "Animal"（参照型Animalのフィールド）</span></pre></div>
+    </div>
+  </section>
+
+  <!-- 7. インターフェース -->
+  <section id="interface" class="detail-section">
+    <h2 class="section-title">7️⃣ インターフェース・抽象クラス</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>インターフェースは多重実装可能（abstractクラスは1つだけ継承）</li>
+        <li>インターフェースにはdefaultメソッド（Java8）・staticメソッドが書ける</li>
+        <li>抽象クラスはインスタンス化不可、コンストラクタを持てる</li>
+        <li>インターフェースのメソッドはpublic abstract（省略可）</li>
+        <li>インターフェースのフィールドはpublic static final（省略可）</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. 例外処理 -->
+  <section id="exception" class="detail-section">
+    <h2 class="section-title">8️⃣ 例外処理</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>チェック例外 vs 非チェック例外（RuntimeExceptionの子孫かどうか）</li>
+        <li>try-catch-finally の実行順序</li>
+        <li>finallyはreturnよりも先に実行される</li>
+        <li>多重catch（catch (A | B e)はJava7以降）</li>
+        <li>try-with-resources（AutoCloseable実装クラスを自動close）</li>
+      </ul>
+      <div class="code-label">Java: 例外処理の例</div>
+      <div class="code-block"><pre><span class="cmt">// try-with-resources（Java7以降）</span>
+<span class="kw">try</span> (BufferedReader br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(<span class="str">"file.txt"</span>))) {
+    String line;
+    <span class="kw">while</span> ((line = br.readLine()) != <span class="kw">null</span>) {
+        System.out.println(line);
+    }
+} <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+    e.printStackTrace();
+}
+<span class="cmt">// tryブロック終了時にbrが自動的にcloseされる</span>
+
+<span class="cmt">// マルチキャッチ（Java7以降）</span>
+<span class="kw">try</span> {
+    <span class="cmt">// 処理</span>
+} <span class="kw">catch</span> (<span class="cls">IOException</span> | <span class="cls">SQLException</span> e) {
+    System.out.println(<span class="str">"エラー: "</span> + e.getMessage());
+}</pre></div>
+    </div>
+  </section>
+
+  <!-- 9. コレクション -->
+  <section id="collection" class="detail-section">
+    <h2 class="section-title">9️⃣ コレクション</h2>
+    <div class="card">
+      <h3>🎯 コレクションの比較</h3>
+      <div style="overflow-x:auto">
+        <table class="range-table">
+          <thead>
+            <tr><th>クラス</th><th>特徴</th><th>重複</th><th>順序</th><th>null</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ArrayList</td><td>動的配列、高速インデックスアクセス</td><td>✅</td><td>挿入順</td><td>✅</td></tr>
+            <tr><td>LinkedList</td><td>双方向リスト、挿入/削除高速</td><td>✅</td><td>挿入順</td><td>✅</td></tr>
+            <tr><td>HashSet</td><td>ハッシュ、高速contains</td><td>❌</td><td>不定</td><td>1つ</td></tr>
+            <tr><td>TreeSet</td><td>ソート済みSet</td><td>❌</td><td>昇順</td><td>❌</td></tr>
+            <tr><td>HashMap</td><td>Key-Value、高速検索</td><td>Key❌/Value✅</td><td>不定</td><td>Key1つ</td></tr>
+            <tr><td>LinkedHashMap</td><td>挿入順を保持するMap</td><td>Key❌/Value✅</td><td>挿入順</td><td>Key1つ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. ラムダ -->
+  <section id="lambda" class="detail-section">
+    <h2 class="section-title">🔟 ラムダ式・Stream API</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>関数型インターフェースとは（抽象メソッドが1つのinterface）</li>
+        <li>Predicate / Function / Consumer / Supplier の違い</li>
+        <li>Stream APIの中間操作と終端操作</li>
+        <li>Streamは再利用不可（一方向パイプライン）</li>
+        <li>メソッド参照（ClassName::methodName）</li>
+      </ul>
+      <div class="code-label">Java: Stream APIの例</div>
+      <div class="code-block"><pre>List&lt;String&gt; names = Arrays.asList(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"Anna"</span>);
+
+<span class="cmt">// Aで始まる名前を大文字で収集</span>
+List&lt;String&gt; result = names.stream()
+    .filter(n -> n.startsWith(<span class="str">"A"</span>))   <span class="cmt">// 中間操作</span>
+    .map(String::toUpperCase)           <span class="cmt">// 中間操作（メソッド参照）</span>
+    .sorted()                           <span class="cmt">// 中間操作</span>
+    .collect(Collectors.toList());      <span class="cmt">// 終端操作</span>
+
+System.out.println(result); <span class="cmt">// [ALICE, ANNA]</span>
+
+<span class="cmt">// 集計</span>
+long count = names.stream().filter(n -> n.length() > 3).count();
+System.out.println(count); <span class="cmt">// 2（Alice, Charlie）</span></pre></div>
+    </div>
+  </section>
+
+  <!-- 11. モジュール -->
+  <section id="module" class="detail-section">
+    <h2 class="section-title">1️⃣1️⃣ モジュール基礎</h2>
+    <div class="card">
+      <h3>🎯 試験で問われるポイント</h3>
+      <ul style="padding-left:1.25rem;line-height:2">
+        <li>Java 9で導入されたモジュールシステム（JPMS）</li>
+        <li>module-info.java ファイルの基本構文</li>
+        <li>requires：別モジュールへの依存宣言</li>
+        <li>exports：外部に公開するパッケージの宣言</li>
+        <li>Silver試験では基本的な構文理解が求められる（深い実装は不要）</li>
+      </ul>
+      <div class="code-label">module-info.java</div>
+      <div class="code-block"><pre><span class="cmt">// モジュール宣言ファイル（module-info.java）</span>
+<span class="kw">module</span> com.example.myapp {
+    <span class="kw">requires</span> java.sql;        <span class="cmt">// 依存するモジュール</span>
+    <span class="kw">requires</span> java.logging;
+    <span class="kw">exports</span> com.example.api;  <span class="cmt">// 外部に公開するパッケージ</span>
+}</pre></div>
+    </div>
+  </section>
+
+  <div class="text-center" style="margin-top:2rem">
+    <a href="questions.html" class="btn btn-primary btn-lg">問題演習に挑戦する →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">ホーム</a>
+    <a href="exam.html">試験範囲</a>
+    <a href="questions.html">問題演習</a>
+    <a href="explanation.html">詳細解説</a>
+    <a href="practical.html">業務活用</a>
+    <a href="roadmap.html">ロードマップ</a>
+  </div>
+  <p>Java Silver 学習サイト &copy; 2025</p>
+</footer>
+
+<script src="js/questions.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

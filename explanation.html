@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>詳細解説 | Java Silver 学習サイト</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo"><a href="index.html" style="color:white;text-decoration:none"><span>☕</span> Java Silver 学習</a></div>
+    <button class="nav-toggle" aria-label="メニュー">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">ホーム</a></li>
+      <li><a href="exam.html">試験範囲</a></li>
+      <li><a href="questions.html">問題演習</a></li>
+      <li><a href="explanation.html">詳細解説</a></li>
+      <li><a href="practical.html">業務活用</a></li>
+      <li><a href="roadmap.html">ロードマップ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<nav class="detail-nav" id="detail-nav">
+  <a href="#eq-equals">== と equals</a>
+  <a href="#string-sb">String vs StringBuilder</a>
+  <a href="#static">static</a>
+  <a href="#final">final</a>
+  <a href="#inheritance">継承とオーバーライド</a>
+  <a href="#abstract-interface">抽象クラス vs Interface</a>
+  <a href="#exception">例外処理</a>
+  <a href="#arraylist">ArrayList</a>
+  <a href="#lambda">ラムダ式</a>
+</nav>
+
+<div class="container">
+  <h1 class="section-title" style="margin-top:0.5rem">📖 詳細解説</h1>
+
+  <!-- == と equals -->
+  <section class="detail-section" id="eq-equals">
+    <h2>== と equals の違い</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>文字列の内容を比較するには必ず <code>equals()</code> を使う。<code>==</code> は参照（アドレス）の比較。</div>
+
+    <h3>基本説明</h3>
+    <p><strong>==演算子</strong>はプリミティブ型では値比較、参照型ではオブジェクトのアドレスを比較します。<br>
+    <strong>equals()</strong>はオブジェクトの「内容」を比較します（Stringはオーバーライド済み）。</p>
+
+    <div class="code-label">Java: == vs equals</div>
+    <div class="code-block"><pre>String s1 = <span class="str">"Hello"</span>;
+String s2 = <span class="str">"Hello"</span>;          <span class="cmt">// 文字列プールから同じオブジェクト</span>
+String s3 = <span class="kw">new</span> String(<span class="str">"Hello"</span>); <span class="cmt">// 新しいオブジェクト</span>
+
+System.out.println(s1 == s2);       <span class="cmt">// true（同じアドレス）</span>
+System.out.println(s1 == s3);       <span class="cmt">// false（別アドレス）</span>
+System.out.println(s1.equals(s3));  <span class="cmt">// true（内容が同じ）</span>
+
+<span class="cmt">// NullPointerException を避けたい場合</span>
+String input = <span class="kw">null</span>;
+System.out.println(<span class="str">"Hello"</span>.equals(input));     <span class="cmt">// false（NPEなし）</span>
+System.out.println(java.util.Objects.equals(s1, input)); <span class="cmt">// false</span></pre></div>
+
+    <div class="box box-warning">
+      <strong>⚠️ 試験で狙われるポイント</strong>
+      new String() で生成したオブジェクトと == で比較するとfalseになる。
+      nullのオブジェクトにequals()を呼ぶとNullPointerExceptionが発生するため、
+      リテラルを左辺に置く（"Hello".equals(s)）か Objects.equals()を使う。
+    </div>
+
+    <h3>実務での使い方</h3>
+    <p>APIレスポンスや入力値の文字列比較には常に <code>equals()</code> を使います。<br>
+    enumの比較は == でOKです（enumは同じインスタンスが保証されるため）。</p>
+  </section>
+
+  <!-- String vs StringBuilder -->
+  <section class="detail-section" id="string-sb">
+    <h2>String と StringBuilder の違い</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>String は不変（イミュータブル）。StringBuilder は可変（ミュータブル）。ループ内の連結はStringBuilderを使う。</div>
+
+    <h3>基本説明</h3>
+    <p>Stringは一度作ると内容を変更できません（+=のたびに新オブジェクト生成）。<br>
+    StringBuilderは同じオブジェクトの内部バッファに追記するため効率的です。</p>
+
+    <div class="code-label">Java: StringBuilderの主要メソッド</div>
+    <div class="code-block"><pre>StringBuilder sb = <span class="kw">new</span> StringBuilder(<span class="str">"Hello"</span>);
+
+sb.append(<span class="str">" World"</span>);    <span class="cmt">// Hello World</span>
+sb.insert(<span class="num">5</span>, <span class="str">","</span>);       <span class="cmt">// Hello, World</span>
+sb.delete(<span class="num">5</span>, <span class="num">6</span>);        <span class="cmt">// Hello World</span>
+sb.reverse();             <span class="cmt">// dlroW olleH</span>
+sb.replace(<span class="num">0</span>, <span class="num">5</span>, <span class="str">"Hi"</span>); <span class="cmt">// Hi World（0〜4を置換）</span>
+
+System.out.println(sb.toString()); <span class="cmt">// String変換</span>
+System.out.println(sb.length());   <span class="cmt">// 文字数</span>
+System.out.println(sb.charAt(<span class="num">0</span>)); <span class="cmt">// 'H'</span></pre></div>
+
+    <div class="box box-warning">
+      <strong>⚠️ 試験で狙われるポイント</strong>
+      StringBufferはStringBuilderのスレッドセーフ版（synchronized）で低速。
+      シングルスレッドではStringBuilder、マルチスレッドではStringBufferを使う。
+      Silver試験ではStringBuilderのメソッドの動作が頻出。
+    </div>
+  </section>
+
+  <!-- static -->
+  <section class="detail-section" id="static">
+    <h2>static の意味</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>static = クラスに属する。インスタンスなしで使える。全インスタンスで共有される。</div>
+
+    <h3>基本説明</h3>
+    <p>通常のフィールド・メソッドはインスタンス（オブジェクト）に属します。<br>
+    staticをつけるとクラスに属し、インスタンスを作らずに使えます。</p>
+
+    <div class="code-label">Java: staticの使い方</div>
+    <div class="code-block"><pre><span class="kw">class</span> <span class="cls">MathUtil</span> {
+    <span class="kw">static final double</span> PI = <span class="num">3.14159</span>; <span class="cmt">// 定数（変更不可）</span>
+
+    <span class="kw">static double</span> <span class="met">circle</span>(<span class="kw">double</span> r) {   <span class="cmt">// インスタンス不要</span>
+        <span class="kw">return</span> PI * r * r;
+    }
+}
+
+<span class="cmt">// インスタンスを作らずに呼べる</span>
+System.out.println(MathUtil.PI);
+System.out.println(MathUtil.circle(<span class="num">5.0</span>));
+
+<span class="cmt">// staticメソッドからインスタンス変数は使えない！</span>
+<span class="kw">class</span> <span class="cls">Broken</span> {
+    <span class="kw">int</span> x = <span class="num">10</span>;
+    <span class="kw">static void</span> <span class="met">method</span>() {
+        System.out.println(x); <span class="cmt">// コンパイルエラー！</span>
+    }
+}</pre></div>
+
+    <div class="box box-warning">
+      <strong>⚠️ 試験で狙われるポイント</strong>
+      staticメソッドからはinstanceメンバにアクセス不可。
+      staticフィールドはすべてのインスタンスで共有。
+      staticメソッドのオーバーライドは不可（hidingになる）。
+    </div>
+  </section>
+
+  <!-- final -->
+  <section class="detail-section" id="final">
+    <h2>final の意味</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>final = 変更禁止。変数なら再代入不可、メソッドならオーバーライド不可、クラスなら継承不可。</div>
+
+    <div class="code-label">Java: finalの3つの使い方</div>
+    <div class="code-block"><pre><span class="cmt">// 1. final変数（再代入不可）</span>
+<span class="kw">final int</span> MAX = <span class="num">100</span>;
+MAX = <span class="num">200</span>; <span class="cmt">// コンパイルエラー！</span>
+
+<span class="cmt">// ただし参照型の場合、中身の変更は可能</span>
+<span class="kw">final</span> List&lt;String&gt; list = <span class="kw">new</span> ArrayList&lt;&gt;();
+list.add(<span class="str">"OK"</span>); <span class="cmt">// これはOK（listの中身を変えているだけ）</span>
+list = <span class="kw">new</span> ArrayList&lt;&gt;(); <span class="cmt">// コンパイルエラー！（listへの再代入がNG）</span>
+
+<span class="cmt">// 2. finalメソッド（オーバーライド不可）</span>
+<span class="kw">class</span> <span class="cls">Parent</span> {
+    <span class="kw">final void</span> <span class="met">doSomething</span>() { <span class="cmt">/* ... */</span> }
+}
+<span class="kw">class</span> <span class="cls">Child</span> <span class="kw">extends</span> <span class="cls">Parent</span> {
+    <span class="kw">void</span> <span class="met">doSomething</span>() { } <span class="cmt">// コンパイルエラー！</span>
+}
+
+<span class="cmt">// 3. finalクラス（継承不可）</span>
+<span class="kw">final class</span> <span class="cls">Immutable</span> { }
+<span class="kw">class</span> <span class="cls">Sub</span> <span class="kw">extends</span> <span class="cls">Immutable</span> { } <span class="cmt">// コンパイルエラー！</span>
+<span class="cmt">// 例: java.lang.String は finalクラス</span></pre></div>
+  </section>
+
+  <!-- 継承とオーバーライド -->
+  <section class="detail-section" id="inheritance">
+    <h2>継承とオーバーライド</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>継承（extends）は親クラスの機能を引き継ぐ。オーバーライドは子クラスで親のメソッドを上書きする。実行時に実体の型で呼ぶメソッドが決まる。</div>
+
+    <div class="code-label">Java: 継承とオーバーライドの完全な例</div>
+    <div class="code-block"><pre><span class="kw">class</span> <span class="cls">Shape</span> {
+    String color;
+    <span class="cls">Shape</span>(String color) { <span class="kw">this</span>.color = color; }
+    <span class="kw">double</span> <span class="met">area</span>() { <span class="kw">return</span> <span class="num">0</span>; }
+    String <span class="met">describe</span>() { <span class="kw">return</span> color + <span class="str">" shape, area="</span> + area(); }
+}
+
+<span class="kw">class</span> <span class="cls">Circle</span> <span class="kw">extends</span> <span class="cls">Shape</span> {
+    <span class="kw">double</span> radius;
+    <span class="cls">Circle</span>(String color, <span class="kw">double</span> r) {
+        <span class="kw">super</span>(color);  <span class="cmt">// 親コンストラクタ呼び出し（第1行目）</span>
+        <span class="kw">this</span>.radius = r;
+    }
+    <span class="ann">@Override</span>
+    <span class="kw">public double</span> <span class="met">area</span>() { <span class="kw">return</span> <span class="num">3.14</span> * radius * radius; }
+}
+
+<span class="cls">Shape</span> s = <span class="kw">new</span> <span class="cls">Circle</span>(<span class="str">"red"</span>, <span class="num">5</span>);
+System.out.println(s.describe());
+<span class="cmt">// "red shape, area=78.5"</span>
+<span class="cmt">// describe()内でarea()を呼ぶと、オーバーライドされたCircle.area()が実行される</span></pre></div>
+
+    <h3>instanceof 演算子</h3>
+    <div class="code-block"><pre>System.out.println(s <span class="kw">instanceof</span> Shape);  <span class="cmt">// true</span>
+System.out.println(s <span class="kw">instanceof</span> Circle); <span class="cmt">// true</span>
+
+<span class="cmt">// ダウンキャスト（ClassCastExceptionに注意）</span>
+Circle c = (Circle) s;  <span class="cmt">// OK（実体がCircleなので）</span>
+c.radius;               <span class="cmt">// Circleのフィールドにアクセス可能</span></pre></div>
+  </section>
+
+  <!-- 抽象クラス vs インターフェース -->
+  <section class="detail-section" id="abstract-interface">
+    <h2>抽象クラスとインターフェースの違い</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>「is-a（〜である）」関係 → 抽象クラス。「can-do（〜できる）」関係 → インターフェース。多重実装が必要なら → インターフェース。</div>
+
+    <div class="code-label">Java: 比較例</div>
+    <div class="code-block"><pre><span class="cmt">// 抽象クラス：共通の状態と処理を持つ基底クラス</span>
+<span class="kw">abstract class</span> <span class="cls">Employee</span> {
+    String name;
+    <span class="kw">double</span> baseSalary;
+    <span class="cls">Employee</span>(String name, <span class="kw">double</span> base) {
+        <span class="kw">this</span>.name = name; <span class="kw">this</span>.baseSalary = base;
+    }
+    <span class="kw">abstract double</span> <span class="met">calcSalary</span>();     <span class="cmt">// 各子クラスで実装必須</span>
+    <span class="kw">void</span> <span class="met">printInfo</span>() {                 <span class="cmt">// 共通実装</span>
+        System.out.println(name + <span class="str">": "</span> + calcSalary());
+    }
+}
+
+<span class="cmt">// インターフェース：機能の契約</span>
+<span class="kw">interface</span> <span class="cls">Printable</span> {
+    <span class="kw">void</span> <span class="met">print</span>();     <span class="cmt">// 実装クラスが必ず提供</span>
+    <span class="kw">default void</span> <span class="met">preview</span>() { System.out.println(<span class="str">"Preview..."</span>); }
+}
+<span class="kw">interface</span> <span class="cls">Exportable</span> {
+    <span class="kw">void</span> <span class="met">export</span>(String path);
+}
+
+<span class="cmt">// 多重実装が可能</span>
+<span class="kw">class</span> <span class="cls">Report</span> <span class="kw">extends</span> <span class="cls">Employee</span> <span class="kw">implements</span> <span class="cls">Printable</span>, <span class="cls">Exportable</span> {
+    <span class="cls">Report</span>(String name) { <span class="kw">super</span>(name, <span class="num">300000</span>); }
+    <span class="kw">public double</span> <span class="met">calcSalary</span>() { <span class="kw">return</span> baseSalary * <span class="num">1.2</span>; }
+    <span class="kw">public void</span> <span class="met">print</span>() { System.out.println(<span class="str">"Report: "</span> + name); }
+    <span class="kw">public void</span> <span class="met">export</span>(String path) { System.out.println(<span class="str">"Export to: "</span> + path); }
+}</pre></div>
+  </section>
+
+  <!-- 例外処理 -->
+  <section class="detail-section" id="exception">
+    <h2>例外処理</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>チェック例外はthrowsかcatchが必須。非チェック例外（RuntimeException）は任意。finallyは必ず実行される。</div>
+
+    <h3>例外の階層</h3>
+    <div class="code-block"><pre>Throwable
+├── Error  ← 通常キャッチしない（OutOfMemoryError等）
+└── Exception
+    ├── RuntimeException（非チェック例外）← throws不要
+    │   ├── NullPointerException（null参照）
+    │   ├── ArrayIndexOutOfBoundsException（配列範囲外）
+    │   ├── ClassCastException（不正キャスト）
+    │   ├── NumberFormatException（数値変換失敗）
+    │   └── ArithmeticException（0除算等）
+    └── その他Exception（チェック例外）← throws or catch 必須
+        ├── IOException
+        ├── SQLException
+        └── FileNotFoundException</pre></div>
+
+    <div class="code-label">Java: try-catch-finallyの完全な例</div>
+    <div class="code-block"><pre><span class="kw">try</span> {
+    String s = <span class="kw">null</span>;
+    s.length();  <span class="cmt">// NullPointerException発生！</span>
+} <span class="kw">catch</span> (NullPointerException e) {
+    System.out.println(<span class="str">"NPE: "</span> + e.getMessage());
+} <span class="kw">catch</span> (Exception e) {
+    System.out.println(<span class="str">"その他の例外"</span>);  <span class="cmt">// より広い例外は後に書く</span>
+} <span class="kw">finally</span> {
+    System.out.println(<span class="str">"必ず実行"</span>);  <span class="cmt">// 例外有無にかかわらず実行</span>
+}
+
+<span class="cmt">// カスタム例外の作り方</span>
+<span class="kw">class</span> <span class="cls">InsufficientFundsException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+    <span class="kw">double</span> amount;
+    <span class="cls">InsufficientFundsException</span>(<span class="kw">double</span> amount) {
+        <span class="kw">super</span>(<span class="str">"残高不足: "</span> + amount);
+        <span class="kw">this</span>.amount = amount;
+    }
+}</pre></div>
+  </section>
+
+  <!-- ArrayList -->
+  <section class="detail-section" id="arraylist">
+    <h2>ArrayList</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>ArrayListは動的サイズの配列。サイズ変更可能で、インデックスアクセスがO(1)と高速。Listインターフェースを実装している。</div>
+
+    <div class="code-label">Java: ArrayListの主要操作</div>
+    <div class="code-block"><pre>List&lt;String&gt; list = <span class="kw">new</span> ArrayList&lt;&gt;();
+
+<span class="cmt">// 追加</span>
+list.add(<span class="str">"Apple"</span>);           <span class="cmt">// 末尾に追加</span>
+list.add(<span class="num">0</span>, <span class="str">"Avocado"</span>);     <span class="cmt">// 指定位置に挿入</span>
+
+<span class="cmt">// 取得・確認</span>
+String s = list.get(<span class="num">0</span>);      <span class="cmt">// "Avocado"</span>
+<span class="kw">int</span> size = list.size();       <span class="cmt">// 要素数</span>
+<span class="kw">boolean</span> has = list.contains(<span class="str">"Apple"</span>); <span class="cmt">// true</span>
+<span class="kw">int</span> idx = list.indexOf(<span class="str">"Apple"</span>); <span class="cmt">// 最初のindexを返す</span>
+
+<span class="cmt">// 変更・削除</span>
+list.set(<span class="num">0</span>, <span class="str">"Mango"</span>);        <span class="cmt">// 0番目を置き換え</span>
+list.remove(<span class="num">0</span>);              <span class="cmt">// index指定で削除</span>
+list.remove(<span class="str">"Apple"</span>);        <span class="cmt">// 値指定で削除（最初の1件）</span>
+
+<span class="cmt">// ループ</span>
+<span class="kw">for</span> (String item : list) {   <span class="cmt">// 拡張for文</span>
+    System.out.println(item);
+}
+
+<span class="cmt">// ソート</span>
+Collections.sort(list);       <span class="cmt">// 昇順</span>
+list.sort((a, b) -> b.compareTo(a)); <span class="cmt">// 降順（ラムダ）</span></pre></div>
+
+    <div class="box box-warning">
+      <strong>⚠️ よくある間違い</strong>
+      remove(int index) と remove(Object o) の区別に注意。
+      List&lt;Integer&gt; の場合、remove(0) はindex削除、remove(Integer.valueOf(0)) は値削除。
+    </div>
+  </section>
+
+  <!-- ラムダ式 -->
+  <section class="detail-section" id="lambda">
+    <h2>ラムダ式</h2>
+
+    <div class="box box-info"><strong>📌 結論</strong>ラムダ式は「関数型インターフェース（抽象メソッドが1つのinterface）」の実装をシンプルに書く構文。Java8以降で使用可能。</div>
+
+    <h3>基本構文</h3>
+    <div class="code-block"><pre><span class="cmt">// 通常の匿名クラス</span>
+Runnable r1 = <span class="kw">new</span> Runnable() {
+    <span class="kw">public void</span> <span class="met">run</span>() { System.out.println(<span class="str">"run!"</span>); }
+};
+
+<span class="cmt">// ラムダ式（省略形）</span>
+Runnable r2 = () -> System.out.println(<span class="str">"run!"</span>);
+
+<span class="cmt">// 引数あり・処理が複数行</span>
+Comparator&lt;String&gt; comp = (a, b) -> {
+    <span class="kw">return</span> a.length() - b.length();
+};
+
+<span class="cmt">// メソッド参照（さらに省略可能）</span>
+list.forEach(System.out::println); <span class="cmt">// 各要素をprintln</span></pre></div>
+
+    <h3>主な関数型インターフェース</h3>
+    <div class="code-block"><pre><span class="cmt">// Predicate&lt;T&gt;: T → boolean</span>
+Predicate&lt;Integer&gt; isEven = n -> n % <span class="num">2</span> == <span class="num">0</span>;
+System.out.println(isEven.test(<span class="num">4</span>)); <span class="cmt">// true</span>
+
+<span class="cmt">// Function&lt;T,R&gt;: T → R</span>
+Function&lt;String, Integer&gt; len = s -> s.length();
+System.out.println(len.apply(<span class="str">"Hello"</span>)); <span class="cmt">// 5</span>
+
+<span class="cmt">// Consumer&lt;T&gt;: T → void</span>
+Consumer&lt;String&gt; print = s -> System.out.println(s);
+print.accept(<span class="str">"Hello"</span>);
+
+<span class="cmt">// Supplier&lt;T&gt;: () → T</span>
+Supplier&lt;String&gt; greet = () -> <span class="str">"Hello!"</span>;
+System.out.println(greet.get()); <span class="cmt">// "Hello!"</span>
+
+<span class="cmt">// Stream APIとの組み合わせ</span>
+List&lt;String&gt; names = Arrays.asList(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Carol"</span>);
+names.stream()
+    .filter(n -> n.length() > <span class="num">3</span>)   <span class="cmt">// Predicate</span>
+    .map(String::toUpperCase)         <span class="cmt">// Function（メソッド参照）</span>
+    .forEach(System.out::println);    <span class="cmt">// Consumer（メソッド参照）</span></pre></div>
+
+    <div class="box box-success">
+      <strong>✅ 試験対策まとめ</strong>
+      ① ラムダ式は関数型インターフェース（@FunctionalInterface）にのみ使える<br>
+      ② Predicate/Function/Consumer/Supplierのシグネチャを覚える<br>
+      ③ Stream APIの中間操作（filter/map/sorted）と終端操作（collect/count/forEach）を区別する<br>
+      ④ メソッド参照は「クラス名::メソッド名」の形式
+    </div>
+  </section>
+
+  <div class="text-center" style="margin-top:2rem">
+    <a href="questions.html" class="btn btn-primary btn-lg">問題演習で確認する →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">ホーム</a>
+    <a href="exam.html">試験範囲</a>
+    <a href="questions.html">問題演習</a>
+    <a href="practical.html">業務活用</a>
+    <a href="roadmap.html">ロードマップ</a>
+  </div>
+  <p>Java Silver 学習サイト &copy; 2025</p>
+</footer>
+
+<script src="js/questions.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

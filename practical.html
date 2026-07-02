@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>業務で役立つJava | Java Silver 学習サイト</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo"><a href="index.html" style="color:white;text-decoration:none"><span>☕</span> Java Silver 学習</a></div>
+    <button class="nav-toggle" aria-label="メニュー">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">ホーム</a></li>
+      <li><a href="exam.html">試験範囲</a></li>
+      <li><a href="questions.html">問題演習</a></li>
+      <li><a href="explanation.html">詳細解説</a></li>
+      <li><a href="practical.html">業務活用</a></li>
+      <li><a href="roadmap.html">ロードマップ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" style="padding:2.5rem 1rem">
+  <h1 style="font-size:1.8rem">💼 業務で役立つJava知識</h1>
+  <p>Java Silver の知識が実際の開発現場でどう活きるかを解説します</p>
+</section>
+
+<div class="container">
+
+  <div class="box box-info" style="margin-bottom:2rem">
+    <strong>📌 このページの目的</strong>
+    試験勉強で学ぶ知識が「なぜ実務で重要なのか」を理解することで、
+    単なる暗記を超えた深い理解が得られます。理解が深まると試験の正答率も上がります。
+  </div>
+
+  <!-- 1. 制御構文 -->
+  <div class="practical-card">
+    <div class="tag-list">
+      <span class="tag">if文</span>
+      <span class="tag">for文</span>
+      <span class="tag">while文</span>
+      <span class="tag">★★★ 最重要</span>
+    </div>
+    <h3>① 制御構文はすべての業務ロジックの基礎</h3>
+    <p>
+      業務システムでは、条件に応じた処理分岐（if/switch）と繰り返し（for/while）が至る所で使われます。
+      受注管理、在庫チェック、ユーザー認証など、あらゆるビジネスロジックが制御構文で書かれています。
+    </p>
+    <div class="code-label">Java: 実務的な制御構文の例</div>
+    <div class="code-block"><pre><span class="cmt">// 受注ステータスによる処理分岐</span>
+<span class="kw">public</span> String <span class="met">getStatusLabel</span>(String status) {
+    <span class="kw">return switch</span> (status) {         <span class="cmt">// Java14以降のswitch式</span>
+        <span class="kw">case</span> <span class="str">"PENDING"</span>   -> <span class="str">"受付中"</span>;
+        <span class="kw">case</span> <span class="str">"CONFIRMED"</span> -> <span class="str">"確認済み"</span>;
+        <span class="kw">case</span> <span class="str">"SHIPPED"</span>   -> <span class="str">"発送済み"</span>;
+        <span class="kw">case</span> <span class="str">"CANCELLED"</span> -> <span class="str">"キャンセル"</span>;
+        <span class="kw">default</span>          -> <span class="str">"不明"</span>;
+    };
+}
+
+<span class="cmt">// 一括処理でfor文を使う（バッチ処理の基本形）</span>
+<span class="kw">for</span> (Order order : orders) {
+    <span class="kw">if</span> (order.isExpired()) {
+        order.cancel();
+        notifyCustomer(order);
+    }
+}</pre></div>
+  </div>
+
+  <!-- 2. クラス設計 -->
+  <div class="practical-card">
+    <div class="tag-list">
+      <span class="tag">クラス設計</span>
+      <span class="tag">カプセル化</span>
+      <span class="tag">継承</span>
+    </div>
+    <h3>② クラス設計は保守性・拡張性に直結する</h3>
+    <p>
+      適切なクラス設計は、将来の機能追加・バグ修正のしやすさを大きく左右します。
+      カプセル化（private + getter/setter）によって、内部の変更が外部に影響しないコードが書けます。
+    </p>
+    <div class="code-label">Java: カプセル化の実践例</div>
+    <div class="code-block"><pre><span class="kw">class</span> <span class="cls">Product</span> {
+    <span class="kw">private</span> String name;
+    <span class="kw">private int</span> price;   <span class="cmt">// 直接アクセス不可（外部から変更させない）</span>
+    <span class="kw">private int</span> stock;
+
+    <span class="kw">public</span> String <span class="met">getName</span>() { <span class="kw">return</span> name; }
+    <span class="kw">public int</span> <span class="met">getPrice</span>() { <span class="kw">return</span> price; }
+
+    <span class="cmt">// セッターにバリデーションを入れられる</span>
+    <span class="kw">public void</span> <span class="met">setPrice</span>(<span class="kw">int</span> price) {
+        <span class="kw">if</span> (price < <span class="num">0</span>) <span class="kw">throw new</span> <span class="cls">IllegalArgumentException</span>(<span class="str">"価格は0以上"</span>);
+        <span class="kw">this</span>.price = price;
+    }
+
+    <span class="kw">public boolean</span> <span class="met">isInStock</span>() { <span class="kw">return</span> stock > <span class="num">0</span>; }
+}</pre></div>
+    <div class="box box-info">
+      <strong>実務のポイント</strong> フィールドはすべてprivateが基本。
+      IDEでgetter/setterは自動生成できます（Eclipse: Alt+Shift+S / IntelliJ: Alt+Insert）。
+      Lombokライブラリを使うと@Getterアノテーションで自動生成も可能。
+    </div>
+  </div>
+
+  <!-- 3. 例外処理 -->
+  <div class="practical-card">
+    <div class="tag-list">
+      <span class="tag">例外処理</span>
+      <span class="tag">障害対応</span>
+      <span class="tag">ログ</span>
+      <span class="tag">★★★ 最重要</span>
+    </div>
+    <h3>③ 例外処理は障害対応・品質の鍵</h3>
+    <p>
+      本番環境での障害調査には、適切な例外処理とログ出力が不可欠です。
+      例外を握りつぶす（空のcatch）と原因が分からなくなります。
+      finallyまたはtry-with-resourcesでリソースを確実に解放することも重要です。
+    </p>
+    <div class="code-label">Java: 実務的な例外処理</div>
+    <div class="code-block"><pre><span class="kw">public</span> List&lt;User&gt; <span class="met">getUsers</span>(<span class="kw">int</span> departmentId) {
+    <span class="cmt">// try-with-resourcesでDB接続を自動クローズ</span>
+    <span class="kw">try</span> (Connection conn = dataSource.getConnection();
+         PreparedStatement ps = conn.prepareStatement(<span class="str">"SELECT * FROM users WHERE dept_id=?"</span>)) {
+        ps.setInt(<span class="num">1</span>, departmentId);
+        ResultSet rs = ps.executeQuery();
+        List&lt;User&gt; users = <span class="kw">new</span> ArrayList&lt;&gt;();
+        <span class="kw">while</span> (rs.next()) {
+            users.add(mapToUser(rs));
+        }
+        <span class="kw">return</span> users;
+    } <span class="kw">catch</span> (SQLException e) {
+        <span class="cmt">// ログに記録（握りつぶしNG！）</span>
+        log.error(<span class="str">"DBエラー: dept_id={}"</span>, departmentId, e);
+        <span class="kw">throw new</span> <span class="cls">ServiceException</span>(<span class="str">"ユーザー取得失敗"</span>, e);
+    }
+}</pre></div>
+    <div class="box box-warning">
+      <strong>⚠️ 実務でやってはいけないこと</strong><br>
+      catch (Exception e) &#123; &#125; // 空のcatch → 原因が闇に消える<br>
+      catch (Exception e) &#123; e.printStackTrace(); &#125; // 標準出力への出力（本番NGの場合が多い）<br>
+      → 必ずロガー（SLF4J + Logback等）を使ってログを記録する
+    </div>
+  </div>
+
+  <!-- 4. コレクション -->
+  <div class="practical-card">
+    <div class="tag-list">
+      <span class="tag">ArrayList</span>
+      <span class="tag">HashMap</span>
+      <span class="tag">Stream</span>
+      <span class="tag">一覧処理</span>
+    </div>
+    <h3>④ コレクションは一覧データ処理で毎日使う</h3>
+    <p>
+      Web APIやDBから取得したデータはList・MapなどのコレクションとしてJavaで扱います。
+      Stream APIを組み合わせることで、SQLライクな宣言的な処理が書けます。
+    </p>
+    <div class="code-label">Java: Stream APIによる実務的なデータ処理</div>
+    <div class="code-block"><pre><span class="cmt">// DBから取得したユーザーリストを加工する実務的な例</span>
+List&lt;User&gt; users = userRepository.findAll();
+
+<span class="cmt">// 有効なユーザーだけ取り出し、名前順でソート</span>
+List&lt;User&gt; activeUsers = users.stream()
+    .filter(User::isActive)
+    .sorted(Comparator.comparing(User::getName))
+    .collect(Collectors.toList());
+
+<span class="cmt">// 部署ごとにグルーピング（SQLのGROUP BYに相当）</span>
+Map&lt;String, List&lt;User&gt;&gt; byDept = users.stream()
+    .collect(Collectors.groupingBy(User::getDepartment));
+
+<span class="cmt">// 平均年齢を計算（SQLのAVGに相当）</span>
+OptionalDouble avgAge = users.stream()
+    .mapToInt(User::getAge)
+    .average();
+avgAge.ifPresent(a -> System.out.println(<span class="str">"平均年齢: "</span> + a));</pre></div>
+  </div>
+
+  <!-- 5. StringBuilder -->
+  <div class="practical-card">
+    <div class="tag-list">
+      <span class="tag">StringBuilder</span>
+      <span class="tag">String.format</span>
+      <span class="tag">文字列処理</span>
+    </div>
+    <h3>⑤ 文字列操作は至る所で使われる</h3>
+    <p>
+      メール本文生成、CSV出力、SQLの動的組み立て（※実務ではPreparedStatement推奨）、
+      ログメッセージ生成など、文字列操作は非常に頻繁に登場します。
+    </p>
+    <div class="code-label">Java: 文字列操作の実務例</div>
+    <div class="code-block"><pre><span class="cmt">// CSV出力（ループ内でStringBuilderを使う）</span>
+StringBuilder csv = <span class="kw">new</span> StringBuilder();
+csv.append(<span class="str">"名前,年齢,部署\n"</span>);  <span class="cmt">// ヘッダー</span>
+<span class="kw">for</span> (User u : users) {
+    csv.append(u.getName()).append(<span class="str">","</span>)
+       .append(u.getAge()).append(<span class="str">","</span>)
+       .append(u.getDept()).append(<span class="str">"\n"</span>);
+}
+Files.writeString(Path.of(<span class="str">"users.csv"</span>), csv.toString());
+
+<span class="cmt">// String.format でメッセージ生成</span>
+String msg = String.format(<span class="str">"ユーザー %s さん、%d ポイント獲得！"</span>, name, points);
+
+<span class="cmt">// Java15以降: テキストブロック</span>
+String json = <span class="str">"""
+    {
+        "name": "%s",
+        "age": %d
+    }
+    """</span>.formatted(name, age);</pre></div>
+  </div>
+
+  <!-- 6. interface -->
+  <div class="practical-card">
+    <div class="tag-list">
+      <span class="tag">Interface</span>
+      <span class="tag">Spring Boot</span>
+      <span class="tag">DI</span>
+      <span class="tag">テスタビリティ</span>
+    </div>
+    <h3>⑥ Interfaceは疎結合設計の要</h3>
+    <p>
+      Spring BootではService・Repositoryの設計にInterfaceが多用されます。
+      インターフェースで抽象化することで、テスト時にモックに差し替えやすくなります。
+    </p>
+    <div class="code-label">Java: Spring Bootでのインターフェース活用</div>
+    <div class="code-block"><pre><span class="cmt">// インターフェースで契約を定義</span>
+<span class="kw">public interface</span> <span class="cls">UserService</span> {
+    <span class="cls">User</span> findById(<span class="kw">long</span> id);
+    List&lt;User&gt; findAll();
+    <span class="kw">void</span> <span class="met">save</span>(User user);
+}
+
+<span class="cmt">// 本番実装</span>
+<span class="ann">@Service</span>
+<span class="kw">public class</span> <span class="cls">UserServiceImpl</span> <span class="kw">implements</span> <span class="cls">UserService</span> {
+    <span class="ann">@Autowired</span>
+    <span class="kw">private</span> <span class="cls">UserRepository</span> repo;
+
+    <span class="kw">public</span> <span class="cls">User</span> <span class="met">findById</span>(<span class="kw">long</span> id) { <span class="kw">return</span> repo.findById(id).orElseThrow(); }
+    <span class="cmt">// ...</span>
+}
+
+<span class="cmt">// テスト用モック実装（DIで差し替え可能）</span>
+<span class="kw">public class</span> <span class="cls">MockUserService</span> <span class="kw">implements</span> <span class="cls">UserService</span> {
+    <span class="kw">public</span> <span class="cls">User</span> <span class="met">findById</span>(<span class="kw">long</span> id) { <span class="kw">return new</span> <span class="cls">User</span>(<span class="str">"テスト"</span>); }
+    <span class="cmt">// ...</span>
+}</pre></div>
+    <div class="box box-info">
+      <strong>設計原則</strong>
+      「具体クラスではなくインターフェースに依存せよ」（依存性逆転の原則）。
+      Springの@Autowiredはインターフェース型で注入することが推奨されます。
+    </div>
+  </div>
+
+  <!-- 7. static乱用NG -->
+  <div class="practical-card">
+    <div class="tag-list">
+      <span class="tag">static</span>
+      <span class="tag">アンチパターン</span>
+      <span class="tag">テスタビリティ</span>
+    </div>
+    <h3>⑦ staticの乱用は避けるべき</h3>
+    <p>
+      staticは便利ですが、乱用するとテストが難しくなり、マルチスレッドでのバグを招きます。
+      ユーティリティメソッドや定数にのみ使うのが適切です。
+    </p>
+    <div class="code-label">Java: staticのアンチパターンと対策</div>
+    <div class="code-block"><pre><span class="cmt">// ❌ アンチパターン: staticで状態を持つ</span>
+<span class="kw">class</span> <span class="cls">BadCache</span> {
+    <span class="kw">static</span> Map&lt;String, User&gt; cache = <span class="kw">new</span> HashMap&lt;&gt;();
+    <span class="cmt">// マルチスレッドで競合・テストで状態が残る</span>
+}
+
+<span class="cmt">// ✅ 良いパターン: インスタンス管理 + DIで注入</span>
+<span class="ann">@Component</span>
+<span class="kw">class</span> <span class="cls">UserCache</span> {
+    <span class="kw">private final</span> Map&lt;String, User&gt; cache = <span class="kw">new</span> ConcurrentHashMap&lt;&gt;();
+    <span class="kw">public</span> <span class="cls">User</span> <span class="met">get</span>(String key) { <span class="kw">return</span> cache.get(key); }
+    <span class="kw">public void</span> <span class="met">put</span>(String key, User user) { cache.put(key, user); }
+}
+
+<span class="cmt">// ✅ staticが適切な場面：状態を持たないユーティリティ</span>
+<span class="kw">class</span> <span class="cls">StringUtils</span> {
+    <span class="kw">static boolean</span> <span class="met">isNullOrEmpty</span>(String s) {
+        <span class="kw">return</span> s == <span class="kw">null</span> || s.isEmpty();
+    }
+}</pre></div>
+  </div>
+
+  <div class="text-center" style="margin-top:2rem">
+    <a href="roadmap.html" class="btn btn-primary btn-lg">学習ロードマップを見る →</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">ホーム</a>
+    <a href="exam.html">試験範囲</a>
+    <a href="questions.html">問題演習</a>
+    <a href="explanation.html">詳細解説</a>
+    <a href="roadmap.html">ロードマップ</a>
+  </div>
+  <p>Java Silver 学習サイト &copy; 2025</p>
+</footer>
+
+<script src="js/questions.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
