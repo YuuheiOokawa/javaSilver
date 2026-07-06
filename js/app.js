@@ -1,15 +1,6 @@
-/* ===== Navigation ===== */
+/* ===== App Init ===== */
 document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.querySelector(".nav-toggle");
-  const navLinks = document.querySelector(".nav-links");
-  if (toggle && navLinks) {
-    toggle.addEventListener("click", () => navLinks.classList.toggle("open"));
-    document.addEventListener("click", e => {
-      if (!toggle.contains(e.target) && !navLinks.contains(e.target))
-        navLinks.classList.remove("open");
-    });
-  }
-
+  // Active nav link (theme.js handles mobile toggle)
   const page = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll(".nav-links a").forEach(a => {
     if (a.getAttribute("href") === page) a.classList.add("active");
