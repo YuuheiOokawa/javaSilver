@@ -13,7 +13,7 @@ Oracle Certified Java Programmer, Silver SE 11 の合格を目指す自己学習
 - 業務で役立つJava知識の解説
 - スマートフォン対応（レスポンシブデザイン）
 
-## 使用技術
+## 技術スタック
 
 - HTML5
 - CSS3（Flexbox / Grid / CSS変数）
@@ -22,7 +22,7 @@ Oracle Certified Java Programmer, Silver SE 11 の合格を目指す自己学習
 
 バックエンド・サーバー不要の静的サイトです。
 
-## 起動方法
+## セットアップ
 
 ブラウザで `index.html` を直接開くだけで動作します。
 
